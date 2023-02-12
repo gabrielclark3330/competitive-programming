@@ -3,7 +3,7 @@ n, s = [int(x) for x in input().split()]
 cards = [int(x) for x in input().split()]
 
 reversable_numbers = ("1", "2", "5", "6", "8", "9", "0")
-reverse_number = {"1":"1", "2":"5", "5":"2", "6":"9", "8":"8", "9":"6", "0":"0"}
+reverse_number = {"1":"1", "2":"2", "5":"5", "6":"9", "8":"8", "9":"6", "0":"0"}
 
 def numbers_add_to_s(numbers, s):
     hashes = {}
@@ -31,7 +31,7 @@ def numbers_add_to_s(numbers, s):
 def flip_number(number):
     new_number = ""
     for character in str(number):
-        new_number = new_number + reverse_number[character]
+        new_number = reverse_number[character] + new_number
     return int(new_number)
 
 def is_card_reversable(number):
