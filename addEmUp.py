@@ -1,3 +1,4 @@
+# https://open.kattis.com/problems/addemup
 n, s = [int(x) for x in input().split()]
 
 cards = [int(x) for x in input().split()]

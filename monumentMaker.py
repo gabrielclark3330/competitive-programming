@@ -1,3 +1,4 @@
+# https://open.kattis.com/problems/monumentmaker
 num_lines, original_width, new_width = [int(x) for x in input().split()]
 
 input_string = ""

@@ -1,3 +1,4 @@
+# https://open.kattis.com/problems/thecolonizationofelgarizm
 num_islands, num_resources = [int(x) for x in input().split()]
 
 islands = []
