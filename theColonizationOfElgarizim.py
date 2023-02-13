@@ -10,6 +10,35 @@ for island_index in range(num_islands):
     for resource in island:
         resource_is_on_islands[resource].append(island_index)
 
+
+ones_turn = True
+island_left_to_pick = True
+p1_islands = []
+p1_resources = set([])
+p2_islands = []
+p2_resources = set([])
+
+def find_island_not_picked():
+    for island_index in range(num_islands):
+        if island_index not in p1_islands and island_index not in p2_islands:
+            return island_index
+
+while 1:
+    if p1_resources==p2_resources:
+        find_island_not_picked()
+        if ones_turn:
+            p1_islands.append(island_to_pick_next)
+            p1_resources.add(islands[island_to_pick_next])
+        else:
+            p2_islands.append(island_to_pick_next)
+            p2_resources.add(islands[island_to_pick_next])
+    else:
+        if ones_turn:
+            pass
+        else:
+            pass
+
+
 ''' sample 1
 adj_mat_islands = [[1 for k in range(num_islands)] for j in range(num_islands)]
 for island_index in range(num_islands):
