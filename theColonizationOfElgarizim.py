@@ -14,60 +14,90 @@ for island_index in range(num_islands):
 
 ones_turn = True
 island_left_to_pick = True
-p1_islands = []
+p1_islands = set([])
 p1_resources = set([])
-p2_islands = []
+p2_islands = set([])
 p2_resources = set([])
 
 def find_island_not_picked():
-    for island_index in range(num_islands):
+    for island_index in range(len(islands)):
         if island_index not in p1_islands and island_index not in p2_islands:
             return island_index
+    return None
 
-while 1:
+satisfiable = None
+# manage end state
+while satisfiable is None:
     if p1_resources==p2_resources:
-        find_island_not_picked()
+        island_to_pick_next = find_island_not_picked()
+        if island_to_pick_next is None:
+            satisfiable = True
+            break
         if ones_turn:
-            p1_islands.append(island_to_pick_next)
-            p1_resources.add(islands[island_to_pick_next])
+            p1_islands.add(island_to_pick_next)
+            p1_resources.update(islands[island_to_pick_next])
         else:
-            p2_islands.append(island_to_pick_next)
-            p2_resources.add(islands[island_to_pick_next])
+            p2_islands.add(island_to_pick_next)
+            p2_resources.update(islands[island_to_pick_next])
+        ones_turn = not ones_turn
     else:
-        if ones_turn:
-            pass
-        else:
-            pass
+        if ones_turn: # p1s turn
+            # find the elements that p2 has but p1 doesn't
+            diff = p2_resources.difference(p1_resources)
+            # find the islands assosiated with them
+            islands_to_add = set()
+            for resource in diff:
+                # if islands taken then sim not satisfiable break
+                # else add each island and island resources to p1
+                islands_arr = resource_is_on_islands[resource]
+                if len(islands_arr) != 2:
+                    print("ERROR")
+                if islands_arr[0] not in p2_islands:
+                    islands_to_add.add(islands_arr[0])
+                elif islands_arr[1] not in p2_islands:
+                    islands_to_add.add(islands_arr[1])
+                else:
+                    satisfiable = False
+                    break
+                for island in islands_to_add:
+                    p1_islands.add(island)
+                    p1_resources.update(islands[island])
+            # flip turn
+            ones_turn = not ones_turn
+        else: # p2s turn
+            # find the elements that p2 has but p1 doesn't
+            diff = p1_resources.difference(p2_resources)
+            # find the islands assosiated with them
+            islands_to_add = set()
+            for resource in diff:
+                # if islands taken then sim not satisfiable break
+                # else add each island and island resources to p1
+                islands_arr = resource_is_on_islands[resource]
+                if len(islands_arr) != 2:
+                    print("ERROR")
+                if islands_arr[0] not in p1_islands:
+                    islands_to_add.add(islands_arr[0])
+                elif islands_arr[1] not in p1_islands:
+                    islands_to_add.add(islands_arr[1])
+                else:
+                    satisfiable = False
+                    break
+                for island in islands_to_add:
+                    p2_islands.add(island)
+                    p2_resources.update(islands[island])
+            # flip turn
+            ones_turn = not ones_turn
+    '''
+    print("1turn", ones_turn)
+    print("p1i", p1_islands)
+    print("p1r", p1_resources)
+    print("p2i", p2_islands)
+    print("p2r", p2_resources)
+    print("---")
+    '''
 
-
-''' sample 1
-adj_mat_islands = [[1 for k in range(num_islands)] for j in range(num_islands)]
-for island_index in range(num_islands):
-    for resource in islands[island_index]:
-        exclude_islands = resource_is_on_islands[resource]
-        for island_to_exclude in exclude_islands:
-            adj_mat_islands[island_index][island_to_exclude] = 0
-            adj_mat_islands[island_to_exclude][island_index] = 0
-
-[ 0  1  2  3  4  5  6 <- to
-0[1, 1, 1, 0, 0, 1, 1]
-1[1, 1, 0, 1, 1, 0, 1]
-2[1, 0, 1, 1, 0, 1, 1]
-3[0, 1, 1, 1, 1, 1, 0]
-4[0, 1, 0, 1, 1, 0, 1]
-5[1, 0, 1, 1, 0, 1, 1]
-6[1, 1, 1, 0, 1, 1, 1]]
-^
-|
-from
-for row in adj_mat_islands:
-    print(row)
-'''
-
-'''
 if satisfiable:
     print("YES")
 else:
     print("NO")
-'''
 
