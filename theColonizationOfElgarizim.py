@@ -11,7 +11,6 @@ for island_index in range(num_islands):
     for resource in island:
         resource_is_on_islands[resource].append(island_index)
 
-
 ones_turn = True
 island_left_to_pick = True
 p1_islands = set([])
@@ -50,8 +49,6 @@ while satisfiable is None:
                 # if islands taken then sim not satisfiable break
                 # else add each island and island resources to p1
                 islands_arr = resource_is_on_islands[resource]
-                if len(islands_arr) != 2:
-                    print("ERROR")
                 if islands_arr[0] not in p2_islands:
                     islands_to_add.add(islands_arr[0])
                 elif islands_arr[1] not in p2_islands:
@@ -73,8 +70,6 @@ while satisfiable is None:
                 # if islands taken then sim not satisfiable break
                 # else add each island and island resources to p1
                 islands_arr = resource_is_on_islands[resource]
-                if len(islands_arr) != 2:
-                    print("ERROR")
                 if islands_arr[0] not in p1_islands:
                     islands_to_add.add(islands_arr[0])
                 elif islands_arr[1] not in p1_islands:
